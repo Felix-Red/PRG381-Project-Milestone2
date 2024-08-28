@@ -91,14 +91,14 @@ public class Main_DashBoard extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         
-        Book_Management bm = new Book_Management();
+        Book_Management bm = new Book_Management(db);
         bm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Borrow_Management brm = new Borrow_Management();
+        Borrow_Management brm = new Borrow_Management(db);
         brm.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -138,8 +138,8 @@ public class Main_DashBoard extends javax.swing.JFrame {
                 new Main_DashBoard().setVisible(true);
                 try{
                     db.connect();
-                    db.createTableBooks();
-                    db.createTableBorrowers();
+                    //db.createTableBooks();
+                    //db.createTableBorrowers();
                 }catch (ClassNotFoundException ex){
                     ex.printStackTrace();
                 }
