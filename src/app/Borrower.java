@@ -13,7 +13,7 @@ public class Borrower extends LibraryStakeHolder{
     private String studentCourse;
     private String rentalPrice;
 
-    public Borrower(String bookID, String studentID, String name, String surname, String studentCourse, String rentalPrice) {
+    public Borrower(String studentID, String name, String surname, String studentCourse, String rentalPrice, String bookID) {
         super(studentID, name, surname);
         this.bookID = bookID;
         this.studentCourse = studentCourse;

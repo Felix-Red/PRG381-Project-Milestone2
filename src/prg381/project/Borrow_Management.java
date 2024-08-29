@@ -6,6 +6,7 @@ package prg381.project;
 
 import app.Borrower;
 import app.DBConnection;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,9 +16,38 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Borrow_Management extends javax.swing.JFrame {
 private DBConnection dbConnection;
-    public Borrow_Management(DBConnection dbConnection) {
+    
+private void clearInput(){
+        txtBookID.setText("");
+        txtName.setText("");
+        txtSurname.setText("");
+        txtCourse.setText("");
+        txtStudentID.setText("");
+        txtPrice.setText("");
+    }
+public Borrow_Management(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
         initComponents();
+         jTable1.getSelectionModel().addListSelectionListener(event ->{
+            if(!event.getValueIsAdjusting() && jTable1.getSelectedRow() != -1){
+                int selectedRow = jTable1.getSelectedRow();
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+                String name = model.getValueAt(selectedRow, 1).toString();
+                String sname = model.getValueAt(selectedRow, 2).toString();
+                String course = model.getValueAt(selectedRow, 3).toString();
+                String price = model.getValueAt(selectedRow, 4).toString();
+                //String bid = model.getValueAt(selectedRow, 5).toString();
+                
+                txtStudentID.setText(String.valueOf(id));
+                txtName.setText(name);
+                txtSurname.setText(sname);
+                txtCourse.setText(course);
+                txtPrice.setText(price);
+                //txtBookID.setText(bid);
+            }
+        }
+        );
     }
 
     /**
@@ -44,17 +74,22 @@ private DBConnection dbConnection;
         txtStudentID = new javax.swing.JTextField();
         txtPrice = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jTable2 = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(102, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         jLabel1.setText("Book ID:");
@@ -95,7 +130,7 @@ private DBConnection dbConnection;
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(txtStudentID, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -138,18 +173,18 @@ private DBConnection dbConnection;
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 860, -1));
 
-        jTable1.setBackground(new java.awt.Color(204, 204, 204));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable2.setBackground(new java.awt.Color(204, 204, 204));
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Book ID", "Student ID", "Student Name", "Student Surname", "Student Course", "Rental Price"
+                "Student Name", "Student Surname", "Course", "Title", "Genre"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(jTable2);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 860, 200));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 860, 100));
 
         jButton3.setBackground(new java.awt.Color(255, 204, 102));
         jButton3.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
@@ -174,15 +209,77 @@ private DBConnection dbConnection;
         jButton1.setBackground(new java.awt.Color(255, 204, 102));
         jButton1.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 270, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(255, 204, 102));
         jButton2.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 270, -1, -1));
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prg381/project/61897a35583a9b51db018d3e_MartinPublicSeating-97560-Importance-School-Library-blogbanner1.jpg"))); // NOI18N
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(-70, 0, 1000, 550));
+        jButton5.setBackground(new java.awt.Color(255, 204, 102));
+        jButton5.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
+        jButton5.setText("Delete");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(810, 270, -1, -1));
+
+        jButton6.setText("Clear");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 700, -1, -1));
+
+        jButton7.setText("Back");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton7, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 700, -1, -1));
+
+        jTable1.setBackground(new java.awt.Color(204, 204, 204));
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Student ID", "Student Name", "Student Surname", "Student Course", "Rental Price", "Book ID"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setHeaderValue("Student ID");
+            jTable1.getColumnModel().getColumn(1).setHeaderValue("Student Name");
+            jTable1.getColumnModel().getColumn(2).setHeaderValue("Student Surname");
+            jTable1.getColumnModel().getColumn(3).setHeaderValue("Student Course");
+            jTable1.getColumnModel().getColumn(4).setHeaderValue("Rental Price");
+            jTable1.getColumnModel().getColumn(5).setHeaderValue("Book ID");
+        }
+
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 310, 860, 200));
+
+        jButton8.setText("View Borrower");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton8, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 530, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -199,12 +296,12 @@ private DBConnection dbConnection;
         if(bid.isEmpty() || sid.isEmpty() || name.isEmpty() || surname.isEmpty() || course.isEmpty() || price.isEmpty()){
             JOptionPane.showMessageDialog(this, "Enter all fields", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            Borrower borrower = new Borrower(bid, sid, name, surname, course, price);
+            Borrower borrower = new Borrower(sid, name, surname, course, price, bid);
             dbConnection.addBorrower(borrower);
             JOptionPane.showMessageDialog(this, "Borrower added to database", "Error", JOptionPane.ERROR_MESSAGE);
             
             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-            model.addRow(new Object[]{bid, sid, name, surname, course, price});
+            model.addRow(new Object[]{sid, name, surname, course, price, bid});
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -216,6 +313,81 @@ private DBConnection dbConnection;
             model.addRow(row);
         }
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String id = txtStudentID.getText();
+        String name = txtName.getText();
+        String sname = txtSurname.getText();
+        String course = txtCourse.getText();
+        String price = txtPrice.getText();
+        
+        dbConnection.updateBorrowers(id, name, sname, course, price);
+        JOptionPane.showMessageDialog(this, "Table updated", "Updated", JOptionPane.ERROR_MESSAGE);
+        
+        int selectedRow = jTable1.getSelectedRow();
+         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+         
+         model.setValueAt(id, selectedRow, 0);
+         model.setValueAt(name, selectedRow, 1);
+         model.setValueAt(sname, selectedRow, 2);
+         model.setValueAt(course, selectedRow, 3);
+         model.setValueAt(price, selectedRow, 4);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        
+        if(row < 0){
+            JOptionPane.showMessageDialog(this, "No Row selected", "Select row", JOptionPane.ERROR_MESSAGE);
+        }else{
+             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+             String id = model.getValueAt(row, 0).toString();
+             dbConnection.deleteBorrower(id);
+             model.removeRow(row);
+             JOptionPane.showMessageDialog(this, "Book deleted from database", "Deleted", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        clearInput();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        Main_DashBoard MD = new Main_DashBoard();
+        MD.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+         int row = jTable1.getSelectedRow();
+    
+    if(row < 0) {
+        JOptionPane.showMessageDialog(this, "No Row selected", "Select row", JOptionPane.ERROR_MESSAGE);
+    } else {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        String id = model.getValueAt(row, 0).toString();
+        
+        // Clear existing rows from jTable2 before adding new data
+        DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
+        model2.setRowCount(0);
+        
+        // Fetch the data using displayBorrowers
+        ArrayList<String[]> data = dbConnection.displayBorrowers(id);
+        
+        // Add each row from the data to jTable2
+        for (String[] rowData : data) {
+            model2.addRow(rowData);
+        }
+    }
+    }//GEN-LAST:event_jButton8ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -257,6 +429,10 @@ private DBConnection dbConnection;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -264,10 +440,11 @@ private DBConnection dbConnection;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
     private javax.swing.JTextField txtBookID;
     private javax.swing.JTextField txtCourse;
     private javax.swing.JTextField txtName;

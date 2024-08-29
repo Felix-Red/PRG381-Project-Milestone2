@@ -17,6 +17,15 @@ public class Book_Management extends javax.swing.JFrame {
 
     private DBConnection dbConnection;
     
+    private void clearInput(){
+        txtBookID.setText("");
+        txtTitle.setText("");
+        txtAuthor.setText("");
+        txtYear.setText("");
+        txtGenre.setText("");
+        txtPrice.setText("");
+    }
+    
     public Book_Management(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
         initComponents();
@@ -31,7 +40,7 @@ public class Book_Management extends javax.swing.JFrame {
                 String genre = model.getValueAt(selectedRow, 4).toString();
                 String price = model.getValueAt(selectedRow, 5).toString();
                 
-                txtBookID.setText(String.valueOf(id));
+                //txtBookID.setText(String.valueOf(id));
                 txtTitle.setText(title);
                 txtAuthor.setText(author);
                 txtYear.setText(year);
@@ -71,12 +80,13 @@ public class Book_Management extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(255, 204, 102));
+        jPanel1.setBackground(new java.awt.Color(153, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         jLabel1.setText("Book ID:");
@@ -159,7 +169,7 @@ public class Book_Management extends javax.swing.JFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jTable1.setBackground(new java.awt.Color(255, 204, 102));
+        jTable1.setBackground(new java.awt.Color(204, 255, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -172,7 +182,7 @@ public class Book_Management extends javax.swing.JFrame {
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 300, 860, 200));
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 102));
+        jButton1.setBackground(new java.awt.Color(255, 51, 51));
         jButton1.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton1.setText("Update");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -182,7 +192,7 @@ public class Book_Management extends javax.swing.JFrame {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 260, -1, -1));
 
-        jButton2.setBackground(new java.awt.Color(255, 204, 102));
+        jButton2.setBackground(new java.awt.Color(255, 51, 51));
         jButton2.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton2.setText("Delete");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +202,7 @@ public class Book_Management extends javax.swing.JFrame {
         });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 260, -1, -1));
 
-        jButton3.setBackground(new java.awt.Color(255, 204, 102));
+        jButton3.setBackground(new java.awt.Color(255, 51, 51));
         jButton3.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton3.setText("Add");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -202,7 +212,7 @@ public class Book_Management extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 260, -1, -1));
 
-        jButton4.setBackground(new java.awt.Color(255, 204, 102));
+        jButton4.setBackground(new java.awt.Color(255, 51, 51));
         jButton4.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton4.setText("View");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -212,9 +222,21 @@ public class Book_Management extends javax.swing.JFrame {
         });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 260, -1, -1));
 
-        jLabel8.setBackground(new java.awt.Color(204, 153, 0));
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/prg381/project/24manguel-superJumbo.jpg"))); // NOI18N
-        getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(-350, -30, 1310, 590));
+        jButton5.setText("Clear");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 510, -1, -1));
+
+        jButton6.setText("Back");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 510, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -266,6 +288,7 @@ public class Book_Management extends javax.swing.JFrame {
              model.removeRow(row);
              JOptionPane.showMessageDialog(this, "Book deleted from database", "Deleted", JOptionPane.ERROR_MESSAGE);
         }
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -278,6 +301,7 @@ public class Book_Management extends javax.swing.JFrame {
         String price = txtPrice.getText();
         
         dbConnection.updateBook(id, title, author, year, genre, price);
+        JOptionPane.showMessageDialog(this, "Table updated", "Updated", JOptionPane.ERROR_MESSAGE);
         
          int selectedRow = jTable1.getSelectedRow();
          DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -288,6 +312,19 @@ public class Book_Management extends javax.swing.JFrame {
          model.setValueAt(genre, selectedRow, 4);
          model.setValueAt(price, selectedRow, 5);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        clearInput();
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        Main_DashBoard MD = new Main_DashBoard();
+        MD.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -331,6 +368,8 @@ public class Book_Management extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -338,7 +377,6 @@ public class Book_Management extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;

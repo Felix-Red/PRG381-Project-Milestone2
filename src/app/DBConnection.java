@@ -43,15 +43,15 @@ public class DBConnection {
         }
     }
  
-    public void createTableBorrowers(){
+    public void createTableBorrowers() {
     try (Statement stmt = con.createStatement()) {
         String query = "CREATE TABLE Borrowers ("
-                + "StudentID INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY, "
-                + "BookID INT, "
+                + "StudentID INT PRIMARY KEY, "
                 + "StudentName VARCHAR(20), "
                 + "StudentSurname VARCHAR(20), "
                 + "StudentCourse VARCHAR(20), "
                 + "RentalPrice VARCHAR(20), "
+                + "BookID INT, " // Add this line to define BookID
                 + "FOREIGN KEY (BookID) REFERENCES Books(BookID))";
         stmt.executeUpdate(query);
         System.out.println("Table created");
@@ -61,16 +61,18 @@ public class DBConnection {
     }
 }*/
 
+
  
     public void addBorrower(Borrower borrower) {
     try {
-        String query = "INSERT INTO Borrowers (BookID, StudentName, StudentSurname, StudentCourse, RentalPrice) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO Borrowers (StudentID, StudentName, StudentSurname, StudentCourse, RentalPrice, BookID) VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement pstmt = con.prepareStatement(query);
-        pstmt.setString(1, borrower.getBookID());
+        pstmt.setString(1, borrower.id);
         pstmt.setString(2, borrower.getName());
         pstmt.setString(3, borrower.getSurname());
         pstmt.setString(4, borrower.getStudentCourse());
         pstmt.setString(5, borrower.getRentalPrice());
+        pstmt.setString(6, borrower.getBookID());
         pstmt.executeUpdate();
         System.out.println("Data Added");
     } catch (SQLException ex) {
@@ -128,13 +130,13 @@ public class DBConnection {
               ResultSet table = this.con.createStatement().executeQuery(query);
               while(table.next()){
                   String sid = table.getString("StudentID");
-                  String bid = table.getString("BookID");
                   String name = table.getString("StudentName");
-                  String  sname = table.getString("StudentSurname");
+                  String sname = table.getString("StudentSurname");
+                  String course = table.getString("StudentCourse");
                   String price = table.getString("RentalPrice");
                   String fkey = table.getString("BookID");
                   
-                  String[] row = {sid, bid, name, sname, price, fkey};
+                  String[] row = {sid,name, sname,course, price, fkey};
                   dataList.add(row);
               }
            }catch(SQLException ex){
@@ -148,7 +150,7 @@ public class DBConnection {
         try (PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, id);
             pstmt.executeUpdate();
-            System.out.println("Book deleted");
+            //System.out.println("Book deleted");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -169,6 +171,59 @@ public class DBConnection {
         e.printStackTrace();
     }
 }
-
+   public void updateBorrowers(String studentid, String name, String sname, String course, String price){
+       String query = "UPDATE Borrowers SET StudentID = ?, StudentName = ?, StudentSurname = ?, StudentCourse = ?, RentalPrice = ? WHERE StudentID = ?";
+       
+       try(PreparedStatement pstmt = con.prepareStatement(query)){
+           pstmt.setString(1, studentid);
+           pstmt.setString(2, name);
+           pstmt.setString(3, sname);
+           pstmt.setString(4, course);
+           pstmt.setString(5, price);
+           pstmt.setString(6, studentid);
+           pstmt.executeUpdate();
+           
+       }catch(SQLException ex){
+           ex.printStackTrace();
+       }
+   }
+   public void deleteBorrower(String id) {
+        String sql = "DELETE FROM Borrowers WHERE StudentID = ?";
+        
+        try (PreparedStatement pstmt = con.prepareStatement(sql)) {
+            pstmt.setString(1, id);
+            pstmt.executeUpdate();
+            //System.out.println("Book deleted");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public ArrayList<String[]> displayBorrowers(String id) {
+    String query = "SELECT b.StudentName, b.StudentSurname, b.StudentCourse, bo.Title, bo.Genre "
+                 + "FROM Borrowers b "
+                 + "INNER JOIN Books bo ON b.BookID = bo.BookID "
+                 + "WHERE b.StudentID = ?";
     
+    ArrayList<String[]> dataList = new ArrayList<>();
+                 
+    try (PreparedStatement pstmt = con.prepareStatement(query)) {
+        pstmt.setString(1, id); // Set the parameter for StudentID
+        try (ResultSet rs = pstmt.executeQuery()) {
+            while (rs.next()) {
+                String studentName = rs.getString("StudentName");
+                String studentSurname = rs.getString("StudentSurname");
+                String studentCourse = rs.getString("StudentCourse");
+                String title = rs.getString("Title");
+                String genre = rs.getString("Genre");
+                
+                String[] row = {studentName, studentSurname, studentCourse, title, genre};
+                dataList.add(row); 
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
+    return dataList;
+}
+
 }

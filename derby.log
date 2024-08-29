@@ -1,8 +1,8 @@
 ----------------------------------------------------------------
-Thu Aug 29 11:38:46 SAST 2024D001 : [0] The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217), [1] a816c00e-0191-9d80-720a-00000731f1b0, [2] C:\Users\felix\Desktop\PRG381-Project-Milestone2\libraryDBM2, [3] jdk.internal.loader.ClassLoaders$AppClassLoader@3f99bd52, [4] file:/C:/Users/felix/Desktop/PRG381-Project-Milestone2/src/lib/derby.jar
+Thu Aug 29 17:44:43 SAST 2024D001 : [0] The Apache Software Foundation - Apache Derby - 10.17.1.0 - (1913217), [1] a816c00e-0191-9ecf-7994-0000072863a8, [2] C:\Users\Felix\Desktop\PRG381-Project-Milestone2\libraryDBM2, [3] jdk.internal.loader.ClassLoaders$AppClassLoader@5caf905d, [4] file:/C:/Users/Felix/Desktop/PRG381-Project-Milestone2/src/lib/derby.jar
 java.vendor=Oracle Corporation
-java.runtime.version=21.0.3+7-LTS-152
-user.dir=C:\Users\felix\Desktop\PRG381-Project-Milestone2
+java.runtime.version=19+36-2238
+user.dir=C:\Users\Felix\Desktop\PRG381-Project-Milestone2
 os.name=Windows 11
 os.arch=amd64
 os.version=10.0
