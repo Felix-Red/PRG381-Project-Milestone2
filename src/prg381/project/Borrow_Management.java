@@ -164,6 +164,11 @@ private DBConnection dbConnection;
         jButton4.setBackground(new java.awt.Color(255, 204, 102));
         jButton4.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton4.setText("View");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, -1, -1));
 
         jButton1.setBackground(new java.awt.Color(255, 204, 102));
@@ -202,6 +207,15 @@ private DBConnection dbConnection;
             model.addRow(new Object[]{bid, sid, name, surname, course, price});
         }
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        for(String[] row : dbConnection.viewBorrowers()){
+            model.addRow(row);
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments

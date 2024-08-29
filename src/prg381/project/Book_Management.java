@@ -20,6 +20,26 @@ public class Book_Management extends javax.swing.JFrame {
     public Book_Management(DBConnection dbConnection) {
         this.dbConnection = dbConnection;
         initComponents();
+        jTable1.getSelectionModel().addListSelectionListener(event ->{
+            if(!event.getValueIsAdjusting() && jTable1.getSelectedRow() != -1){
+                int selectedRow = jTable1.getSelectedRow();
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                int id = Integer.parseInt(model.getValueAt(selectedRow, 0).toString());
+                String title = model.getValueAt(selectedRow, 1).toString();
+                String author = model.getValueAt(selectedRow, 2).toString();
+                String year = model.getValueAt(selectedRow, 3).toString();
+                String genre = model.getValueAt(selectedRow, 4).toString();
+                String price = model.getValueAt(selectedRow, 5).toString();
+                
+                txtBookID.setText(String.valueOf(id));
+                txtTitle.setText(title);
+                txtAuthor.setText(author);
+                txtYear.setText(year);
+                txtGenre.setText(genre);
+                txtPrice.setText(price);
+            }
+        }
+        );
     }
 
     /**
@@ -155,11 +175,21 @@ public class Book_Management extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(255, 204, 102));
         jButton1.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton1.setText("Update");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 260, -1, -1));
 
         jButton2.setBackground(new java.awt.Color(255, 204, 102));
         jButton2.setFont(new java.awt.Font("Tempus Sans ITC", 3, 12)); // NOI18N
         jButton2.setText("Delete");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 260, -1, -1));
 
         jButton3.setBackground(new java.awt.Color(255, 204, 102));
@@ -222,6 +252,42 @@ public class Book_Management extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int row = jTable1.getSelectedRow();
+        
+        if(row < 0){
+            JOptionPane.showMessageDialog(this, "No Row selected", "Select row", JOptionPane.ERROR_MESSAGE);
+        }else{
+             DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+             int id = Integer.parseInt(model.getValueAt(row, 0).toString());
+             dbConnection.deleteBook(id);
+             model.removeRow(row);
+             JOptionPane.showMessageDialog(this, "Book deleted from database", "Deleted", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int id = Integer.parseInt(txtBookID.getText());
+        String title = txtTitle.getText();
+        String author = txtAuthor.getText();
+        String year = txtYear.getText();
+        String genre = txtGenre.getText();
+        String price = txtPrice.getText();
+        
+        dbConnection.updateBook(id, title, author, year, genre, price);
+        
+         int selectedRow = jTable1.getSelectedRow();
+         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+         //model.setValueAt(id, selectedRow, 0);
+         model.setValueAt(title, selectedRow, 1);
+         model.setValueAt(author, selectedRow, 2);
+         model.setValueAt(year, selectedRow, 3);
+         model.setValueAt(genre, selectedRow, 4);
+         model.setValueAt(price, selectedRow, 5);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
